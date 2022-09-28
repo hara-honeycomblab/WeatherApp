@@ -1,8 +1,6 @@
 package com.example.weatherapp
 
-class WeatherData : ArrayList<WeatherDataItem>()
-
-data class WeatherDataItem(
+data class WeatherData(
     val precipAverage: PrecipAverage,
     val publishingOffice: String,
     val reportDatetime: String,
