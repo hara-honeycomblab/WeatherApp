@@ -3,29 +3,17 @@ package com.example.weatherapp
 import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.internal.notifyAll
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import kotlin.concurrent.thread
 
 
 class MainActivity : AppCompatActivity() {
-    enum class timeState(val time: Int) {
-        Today(0),
-        Tomorrow(1),
-        DATomorrow(2)
-    }
-    lateinit var text: TextView
-    var weatherData: ArrayList<WeatherData> = ArrayList()
 
     val httpBuilder: OkHttpClient.Builder get() {
         val httpClient = OkHttpClient.Builder()
@@ -54,25 +42,22 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        var btn: Button = findViewById(R.id.button)
-        text = findViewById(R.id.weatherView)
         requestWeatherData()
-
-        btn.setOnClickListener {
-            selectWeatherData(timeState.Today.time)
-        }
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.main, HomeFragment.newInstance())
+            .commit()
     }
 
-   fun selectWeatherData(number: Int) {
-       text.text = weatherData.get(0).timeSeries[0].areas[0].weathers[number]
-    }
-
-    private fun requestWeatherData(){
-        val service = retrofit.create(Service::class.java)
+    fun requestWeatherData(){
+        val service = retrofit.create(IApiService::class.java)
         service.getWeather()
             .subscribeOn(Schedulers.io())
             .subscribe({
-                weatherData = it
+                val gson = Gson()
+                val sharedPreferences = getSharedPreferences("data", MODE_PRIVATE)
+                val editor = sharedPreferences.edit()
+                editor.putString("data", gson.toJson(it))
+                editor.apply()
             }, {
                 Log.e(TAG, "")
             })
