@@ -5,6 +5,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="TitleName">お天気アプリ</string>
     <string name="todayBtn">今日の天気予報</string>
-    <string name="tomorrowBtn">明後日の天気予報</string>
-    <string name="daTomorrowBtn">明々後日の天気予報</string>
+    <string name="tomorrowBtn">明日の天気予報</string>
+    <string name="daTomorrowBtn">明後日の天気予報</string>
 </resources>
