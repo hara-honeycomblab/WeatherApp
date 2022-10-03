@@ -1,15 +1,12 @@
 package com.example.weatherapp
 
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import androidx.fragment.app.Fragment
+import com.example.weatherapp.HomeFragment.Companion.newInstance
 
 class HomeFragment : Fragment() {
 
@@ -27,23 +24,26 @@ class HomeFragment : Fragment() {
         var daTomorrowBtn : Button = view.findViewById(R.id.daTomorrowBtn)
 
         todayBtn.setOnClickListener {
+//            param(MainActivity.timeState.Today.string)
             parentFragmentManager.beginTransaction()
                 .addToBackStack("")
-                .replace(R.id.main, TodayFragment.newInstance())
+                .replace(R.id.main, WeatherFragment().newInstance(MainActivity.timeState.Today.string))
                 .commit()
         }
 
         tomorrowBtn.setOnClickListener {
+//            param(MainActivity.timeState.Tomorrow.string)
             parentFragmentManager.beginTransaction()
                 .addToBackStack("")
-                .replace(R.id.main, TomorrowFragment.newInstance())
+                .replace(R.id.main, WeatherFragment().newInstance(MainActivity.timeState.Tomorrow.string))
                 .commit()
         }
 
         daTomorrowBtn.setOnClickListener {
+//            param(MainActivity.timeState.DATomorrow.string)
             parentFragmentManager.beginTransaction()
                 .addToBackStack("")
-                .replace(R.id.main, DATomorrowFragment.newInstance())
+                .replace(R.id.main, WeatherFragment().newInstance(MainActivity.timeState.DATomorrow.string))
                 .commit()
         }
     }

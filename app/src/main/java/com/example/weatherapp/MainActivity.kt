@@ -14,6 +14,18 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 class MainActivity : AppCompatActivity() {
+    enum class timeState(val number: Int, val string: String) {
+        Today(0, "今日"),
+        Tomorrow(1, "明日"),
+        DATomorrow(2, "明後日")
+    }
+
+    enum class areaName(val number: Int) {
+        Tokyo(0),
+        NorthernIzu(1),
+        SouthernIzu(2),
+        Ogasawara(3)
+    }
 
     val httpBuilder: OkHttpClient.Builder get() {
         val httpClient = OkHttpClient.Builder()
