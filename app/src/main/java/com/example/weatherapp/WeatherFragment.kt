@@ -6,24 +6,20 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ImageView
-import android.widget.Spinner
-import android.widget.TextView
+import android.widget.*
 import androidx.fragment.app.Fragment
-import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
 
 class WeatherFragment : Fragment() {
-    lateinit var spinner: Spinner
+    private lateinit var spinner: Spinner
     private lateinit var iconImage: ImageView
-    lateinit var areaText: TextView
-    lateinit var weatherText: TextView
-    lateinit var windText: TextView
-    lateinit var waveText: TextView
-    var timeState: Int = 0
+    private lateinit var areaText: TextView
+    private lateinit var weatherText: TextView
+    private lateinit var windText: TextView
+    private lateinit var waveText: TextView
+    private var timeState: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -70,16 +66,12 @@ class WeatherFragment : Fragment() {
 
             }
         }
+
     }
 
     fun assignmentData(time: Int, area: Int) {
         var data = getWeatherData(time, area)
         var url = "https://www.jma.go.jp/bosai/forecast/img/${data.weatherCodes}.svg"
-
-        Glide.with(this)
-            .load(url)
-            .into(iconImage)
-
         areaText.text = data.name
         weatherText.text = data.weathers
         windText.text = data.winds

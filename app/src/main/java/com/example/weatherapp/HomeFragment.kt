@@ -24,7 +24,6 @@ class HomeFragment : Fragment() {
         var daTomorrowBtn : Button = view.findViewById(R.id.daTomorrowBtn)
 
         todayBtn.setOnClickListener {
-//            param(MainActivity.timeState.Today.string)
             parentFragmentManager.beginTransaction()
                 .addToBackStack("")
                 .replace(R.id.main, WeatherFragment().newInstance(MainActivity.timeState.Today.string))
@@ -32,7 +31,6 @@ class HomeFragment : Fragment() {
         }
 
         tomorrowBtn.setOnClickListener {
-//            param(MainActivity.timeState.Tomorrow.string)
             parentFragmentManager.beginTransaction()
                 .addToBackStack("")
                 .replace(R.id.main, WeatherFragment().newInstance(MainActivity.timeState.Tomorrow.string))
@@ -40,7 +38,6 @@ class HomeFragment : Fragment() {
         }
 
         daTomorrowBtn.setOnClickListener {
-//            param(MainActivity.timeState.DATomorrow.string)
             parentFragmentManager.beginTransaction()
                 .addToBackStack("")
                 .replace(R.id.main, WeatherFragment().newInstance(MainActivity.timeState.DATomorrow.string))
