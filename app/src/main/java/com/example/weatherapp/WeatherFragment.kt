@@ -3,23 +3,27 @@ package com.example.weatherapp
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ImageView
+import android.widget.Spinner
 import android.widget.TextView
+import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.squareup.picasso.Picasso
+
 
 class WeatherFragment : Fragment() {
-    lateinit var iconImage: ImageView
+    lateinit var spinner: Spinner
+    private lateinit var iconImage: ImageView
     lateinit var areaText: TextView
     lateinit var weatherText: TextView
     lateinit var windText: TextView
     lateinit var waveText: TextView
+    var timeState: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,6 +34,7 @@ class WeatherFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        spinner = view.findViewById(R.id.areaSpinner)
         var headerView: TextView = view.findViewById(R.id.headerText)
         areaText = view.findViewById(R.id.areaText)
         iconImage = view.findViewById(R.id.iconImage)
@@ -37,30 +42,44 @@ class WeatherFragment : Fragment() {
         windText = view.findViewById(R.id.windText)
         waveText = view.findViewById(R.id.waveText)
         var data = getArguments()?.getString("data")
-        Log.e("data", data.toString())
+        var title = "${data}の天気"
         if(MainActivity.timeState.Today.string == data){
-            headerView.text = "${data}の天気"
-            assignmentData(MainActivity.timeState.Today.number,
-                            MainActivity.areaName.Tokyo.number)
+            headerView.text = title
+            timeState = MainActivity.timeState.Today.number
+            assignmentData(timeState, MainActivity.areaName.Tokyo.number)
         }
         else if(MainActivity.timeState.Tomorrow.string == data){
-            headerView.text = "${data}の天気"
-            assignmentData(MainActivity.timeState.Tomorrow.number,
-                            MainActivity.areaName.Tokyo.number)
+            headerView.text = title
+            timeState = MainActivity.timeState.Tomorrow.number
+            assignmentData(timeState, MainActivity.areaName.Tokyo.number)
         }
         else {
-            headerView.text = "${data}の天気"
-            assignmentData(MainActivity.timeState.DATomorrow.number,
-                            MainActivity.areaName.Tokyo.number)
+            headerView.text = title
+            timeState = MainActivity.timeState.DATomorrow.number
+            assignmentData(timeState, MainActivity.areaName.Tokyo.number)
+        }
+
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+
+            override fun onItemSelected(parent: AdapterView<*>?,
+                                        view: View?, position: Int, id: Long) {
+                assignmentData(timeState, position)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
         }
     }
 
     fun assignmentData(time: Int, area: Int) {
         var data = getWeatherData(time, area)
         var url = "https://www.jma.go.jp/bosai/forecast/img/${data.weatherCodes}.svg"
-        Picasso.get()
+
+        Glide.with(this)
             .load(url)
             .into(iconImage)
+
         areaText.text = data.name
         weatherText.text = data.weathers
         windText.text = data.winds

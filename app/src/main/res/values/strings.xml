@@ -7,4 +7,10 @@
     <string name="todayBtn">今日の天気予報</string>
     <string name="tomorrowBtn">明日の天気予報</string>
     <string name="daTomorrowBtn">明後日の天気予報</string>
+    <string-array name="items">
+        <item>東京地方</item>
+        <item>伊豆諸島北部</item>
+        <item>伊豆諸島南部</item>
+        <item>小笠原諸島</item>
+    </string-array>
 </resources>
