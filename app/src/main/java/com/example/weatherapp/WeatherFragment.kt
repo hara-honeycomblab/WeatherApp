@@ -10,6 +10,7 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.squareup.picasso.Picasso
 
 
 class WeatherFragment : Fragment() {
@@ -66,12 +67,17 @@ class WeatherFragment : Fragment() {
 
             }
         }
-
     }
 
     fun assignmentData(time: Int, area: Int) {
         var data = getWeatherData(time, area)
-        var url = "https://www.jma.go.jp/bosai/forecast/img/${data.weatherCodes}.svg"
+        var url = "https://www.jma.go.jp/bosai/forecast/img/${data.weatherCodes}.png"
+        Log.e("url", url)
+        Picasso.get()
+            .load(url)
+//            .placeholder(R.drawable.no_image)
+            .resize(800, 600) //表示サイズ指定
+            .into(iconImage) //imageViewに流し込み
         areaText.text = data.name
         weatherText.text = data.weathers
         windText.text = data.winds
